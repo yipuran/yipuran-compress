@@ -2,7 +2,7 @@
 Java compress library
 
 ## Dependency
-[yipuran-core](https://github.com/yipuran/yipuran-core, "github/yipuran yipuran-core")
+https://github.com/yipuran/yipuran-core
 
 
 ## Document
