@@ -1,0 +1,108 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.yip.sandbox</groupId>
+  <artifactId>sandbox</artifactId>
+  <version>1.0</version>
+<name>yipuran-sandbpx</name>
+<url>https://github.com/yipuran/sandbpx</url>
+
+
+<properties>
+   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   <github.global.server>github</github.global.server>
+   <guice.version>4.1.0</guice.version>
+</properties>
+
+<repositories>
+   <repository>
+      <id>yipuran-core</id>
+      <url>https://raw.github.com/yipuran/yipuran-core/mvn-repo</url>
+   </repository>
+   <repository>
+      <id>yipuran-gsonhelper</id>
+      <url>https://raw.github.com/yipuran/yipuran-gsonhelper/mvn-repo</url>
+   </repository>
+</repositories>
+
+<distributionManagement>
+   <repository>
+      <id>internal.repos</id>
+      <name>Temporary Staging Repository</name>
+      <url>file://${project.build.directory}/mvn-repo</url>
+   </repository>
+</distributionManagement>
+
+<dependencies>
+   <dependency>
+      <groupId>org.yipuran.core</groupId>
+      <artifactId>yipuran-core</artifactId>
+      <version>4.6</version>
+   </dependency>
+   <dependency>
+      <groupId>org.yipuran.gsonhelper</groupId>
+      <artifactId>yipuran-gsonhelper</artifactId>
+      <version>4.4</version>
+   </dependency>
+
+   <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>1.1.8</version>
+   </dependency>
+   <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.1.8</version>
+   </dependency>
+</dependencies>
+
+
+<build>
+   <plugins>
+      <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-compiler-plugin</artifactId>
+         <configuration>
+            <source>11</source>
+            <target>11</target>
+         </configuration>
+      </plugin>
+      <plugin>
+         <groupId>com.github.github</groupId>
+         <artifactId>site-maven-plugin</artifactId>
+         <version>0.12</version>
+         <configuration>
+            <!-- Git コミットメッセージ -->
+            <message>Maven artifacts for ${project.version}</message>
+            <noJekyll>true</noJekyll>
+            <!-- distributionManagement の url と一致させる -->
+            <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+            <!-- リモートブランチ名 -->
+            <branch>refs/heads/mvn-repo</branch>
+            <includes><include>**/*</include></includes>
+            <!-- Github リポジトリ名 -->
+            <repositoryName>sandbox</repositoryName>
+            <!-- Github リポジトリユーザー名 -->
+            <repositoryOwner>yipuran</repositoryOwner>
+         </configuration>
+         <executions>
+            <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+            <execution>
+               <goals>
+                  <goal>site</goal>
+               </goals>
+            <phase>deploy</phase>
+            </execution>
+         </executions>
+      </plugin>
+
+       <plugin>
+         <artifactId>maven-deploy-plugin</artifactId>
+         <version>2.8.1</version>
+         <configuration>
+            <altDeploymentRepository>internal.repos::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+         </configuration>
+      </plugin>
+   </plugins>
+</build>
+</project>
