@@ -38,7 +38,7 @@
 	<dependency>
 		<groupId>org.yipuran.core</groupId>
 		<artifactId>yipuran-core</artifactId>
-		<version>4.16</version>
+		<version>4.17</version>
 	</dependency>
 </dependencies>
 
